@@ -9,7 +9,7 @@ from utils.global_hotkeys import get_hotkey_manager
 
 from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                                QPushButton, QGroupBox, QScrollArea, QMessageBox,
-                               QRadioButton, QButtonGroup, QSizePolicy)
+                               QRadioButton, QButtonGroup, QSizePolicy, QProgressBar)
 from PySide6.QtCore import Qt, QRect, QTimer
 from PySide6.QtGui import QImage, QPixmap
 
@@ -152,14 +152,14 @@ class MainWindow(QWidget):
         
         self.table_size_group = QButtonGroup()
         table_sizes = [
-            ("2_players", "2 игрока", TableSize.HEADS_UP),
-            ("3_players", "3 игрока", TableSize.THREE_MAX),
-            ("4_players", "4 игрока", TableSize.FOUR_MAX),
-            ("5_players", "5 игроков", TableSize.FIVE_MAX),
-            ("6_players", "6 игроков", TableSize.SIX_MAX),
-            ("7_players", "7 игроков", TableSize.SEVEN_MAX),
-            ("8_players", "8 игроков", TableSize.EIGHT_MAX),
-            ("9_players", "9 игроков", TableSize.NINE_MAX)
+            ("2_players", "2 Players", TableSize.HEADS_UP),
+            ("3_players", "3 Players", TableSize.THREE_MAX),
+            ("4_players", "4 Players", TableSize.FOUR_MAX),
+            ("5_players", "5 Players", TableSize.FIVE_MAX),
+            ("6_players", "6 Players", TableSize.SIX_MAX),
+            ("7_players", "7 Players", TableSize.SEVEN_MAX),
+            ("8_players", "8 Players", TableSize.EIGHT_MAX),
+            ("9_players", "9 Players", TableSize.NINE_MAX)
         ]
         
         for btn_id, label, size in table_sizes:
@@ -329,7 +329,7 @@ class MainWindow(QWidget):
         stage_name = self.game_state.stage.value
         board_count = len(self.game_state.board_cards)
         
-        display_text = f"Стол: {players_count} игроков | Стадия: {stage_name} ({board_count} карт)"
+        display_text = f"Table: {players_count} Players | Stage: {stage_name} ({board_count} cards)"
         self.game_state_label.setText(display_text)
     
     def has_player_cards(self) -> bool:
@@ -569,7 +569,7 @@ class MainWindow(QWidget):
         cards_display = " ".join(str(c) for c in self.game_state.player_cards)
         board_display = " ".join(str(c) for c in self.game_state.board_cards) if self.game_state.board_cards else "No board"
         
-        title = QLabel(f"Анализ - {stage}")
+        title = QLabel(f"Hand Analysis — {stage.upper()}")
         title.setStyleSheet("font-size: 20px; font-weight: bold; color: #4CAF50; padding: 10px;")
         
         cards_label = QLabel(f"Player: {cards_display} | Board: {board_display}")
@@ -579,10 +579,10 @@ class MainWindow(QWidget):
         self.analysis_layout.addWidget(cards_label)
         
         if "current_hand" in result:
-            strength_group = QGroupBox("Анализ руки")
+            strength_group = QGroupBox("Hand Evaluation")
             strength_layout = QVBoxLayout(strength_group)
             
-            current_hand_label = QLabel(f"Текущая комбинация: {result['current_hand']}")
+            current_hand_label = QLabel(f"Current Combination: {result['current_hand'].title()}")
             current_hand_label.setStyleSheet("font-size: 16px; color: #fff; padding: 8px; font-weight: bold;")
             strength_layout.addWidget(current_hand_label)
             
@@ -590,35 +590,31 @@ class MainWindow(QWidget):
             total_outs = result.get("total_outs", 0)
             
             if total_outs >= 0:
-                outs_text = f"🎯 АНАЛИЗ АУТОВ:\n"
-                outs_text += f"• Флеш: {outs_data.get('flush', 0)} аутов\n"
-                outs_text += f"• Стрит: {outs_data.get('straight', 0)} аутов\n"
-                outs_text += f"• Сет/Трипс: {outs_data.get('set_trips', 0)} аутов\n"
-                outs_text += f"• Оверкарты: {outs_data.get('overcard', 0)} аутов\n"
+                outs_text = f"🎯 OUTS ANALYSIS:\n"
+                outs_text += f"• Flush: {outs_data.get('flush', 0)} outs\n"
+                outs_text += f"• Straight: {outs_data.get('straight', 0)} outs\n"
+                outs_text += f"• Set/Trips: {outs_data.get('set_trips', 0)} outs\n"
+                outs_text += f"• Overcards: {outs_data.get('overcard', 0)} outs\n"
                 outs_text += f"━━━━━━━━━━━━━━━━━━━\n"
-                outs_text += f"📊 ВСЕГО АУТОВ: {total_outs}\n\n"
+                outs_text += f"📊 TOTAL OUTS: {total_outs}\n\n"
                 
                 cards_to_come = 5 - len(self.game_state.board_cards)
                 if cards_to_come == 2:
                     improvement_equity = min(total_outs * 4, 100)
-                    stage_text = "до ривера"
+                    stage_text = "to river"
                 elif cards_to_come == 1:
                     improvement_equity = min(total_outs * 2, 100)
-                    stage_text = "на ривере"
+                    stage_text = "on river"
                 else:
                     improvement_equity = 0
-                    stage_text = "завершен"
+                    stage_text = "completed"
                 
-                outs_text += f"📈 Шанс улучшения {stage_text}: {improvement_equity:.2f}%\n"
+                outs_text += f"📈 Improvement Odds {stage_text}: {improvement_equity:.2f}%\n"
                 
-                equity = result.get("equity", {})
-                if "win_rate" in equity and not equity.get("error"):
-                    outs_text += f"\n🏆 ВЕРОЯТНОСТЬ ПОБЕДЫ:\n"
-                    outs_text += f"• Победа: {equity.get('win_rate', 0):.2f}%\n"
-                    outs_text += f"• Ничья: {equity.get('tie_rate', 0):.2f}%\n"
-                    outs_text += f"• Поражение: {equity.get('lose_rate', 0):.2f}%"
+                # Outs summary
+                pass
             else:
-                outs_text = "❌ Значимых дро не обнаружено"
+                outs_text = "❌ No significant draws detected"
             
             outs_label = QLabel(outs_text)
             outs_label.setStyleSheet("font-size: 14px; color: #ccc; padding: 8px; font-family: 'Consolas';")
@@ -626,32 +622,78 @@ class MainWindow(QWidget):
             strength_layout.addWidget(outs_label)
             
             self.analysis_layout.addWidget(strength_group)
+
+        # Dedicated Equity (Win / Tie / Lose) Group Box
+        equity = result.get("equity", {})
+        if "win_rate" in equity and not equity.get("error"):
+            equity_group = QGroupBox("🏆 Win Odds (Monte Carlo Equity)")
+            equity_layout = QVBoxLayout(equity_group)
+            equity_layout.setSpacing(6)
+            
+            win = float(equity.get("win_rate", 0.0))
+            tie = float(equity.get("tie_rate", 0.0))
+            lose = float(equity.get("lose_rate", max(0.0, 100.0 - win - tie)))
+            
+            stats = [
+                ("Win", win, "#4CAF50"),
+                ("Tie", tie, "#FFEB3B"),
+                ("Lose", lose, "#F44336")
+            ]
+            
+            for label_str, val, color in stats:
+                row = QHBoxLayout()
+                lbl = QLabel(f"{label_str}: {val:.2f}%")
+                lbl.setFixedWidth(140)
+                lbl.setStyleSheet("font-size: 13px; font-weight: bold; color: #fff;")
+                
+                pbar = QProgressBar()
+                pbar.setRange(0, 1000)
+                pbar.setValue(int(val * 10))
+                pbar.setTextVisible(False)
+                pbar.setFixedHeight(12)
+                pbar.setStyleSheet(f"""
+                    QProgressBar {{
+                        background-color: #222;
+                        border: 1px solid #444;
+                        border-radius: 4px;
+                    }}
+                    QProgressBar::chunk {{
+                        background-color: {color};
+                        border-radius: 3px;
+                    }}
+                """)
+                
+                row.addWidget(lbl)
+                row.addWidget(pbar, 1)
+                equity_layout.addLayout(row)
+                
+            self.analysis_layout.addWidget(equity_group)
         
         texture = result.get("board_texture", {})
         if texture and "error" not in texture:
-            texture_group = QGroupBox("Текстура доски")
+            texture_group = QGroupBox("Board Texture")
             texture_layout = QVBoxLayout(texture_group)
             
             features = []
             if texture.get('monotone'):
-                features.append("🔴 Монотон")
+                features.append("🔴 Monotone")
             elif texture.get('two_tone'):
-                features.append("🟡 Двухцветная")
+                features.append("🟡 Two-tone")
             elif texture.get('rainbow'):
-                features.append("🌈 Радужная")
+                features.append("🌈 Rainbow")
             
             if texture.get('paired'):
-                features.append("👥 Спаренная")
+                features.append("👥 Paired")
             
             if texture.get('coordinated'):
-                features.append("🔗 Скоординированная")
+                features.append("🔗 Coordinated")
             elif texture.get('dry'):
-                features.append("🏜️ Сухая")
+                features.append("🏜️ Dry")
             
             if texture.get('flush_draw'):
-                features.append("💧 Флеш-дро")
+                features.append("💧 Flush Draw")
             
-            texture_text = "Характеристики:\n" + "\n".join(f"• {f}" for f in features) if features else "Стандартная"
+            texture_text = "Characteristics:\n" + "\n".join(f"• {f}" for f in features) if features else "Standard"
             
             texture_label = QLabel(texture_text)
             texture_label.setStyleSheet("font-size: 14px; color: #ccc; padding: 8px;")
@@ -662,13 +704,19 @@ class MainWindow(QWidget):
         
         strategy = result.get("strategy_recommendation", "")
         if strategy:
-            recommendations_group = QGroupBox("ABC Рекомендации")
+            recommendations_group = QGroupBox("💡 ABC Strategy & Tactical Advisor")
             recommendations_layout = QVBoxLayout(recommendations_group)
             
-            strategy_label = QLabel(f"🎯 {strategy}")
+            strategy_label = QLabel(strategy)
+            strategy_label.setTextFormat(Qt.TextFormat.MarkdownText)
             strategy_label.setStyleSheet("""
-                font-size: 14px; color: #FFF9CB; padding: 15px; font-weight: bold; 
-                border: 2px solid #FFD700; border-radius: 8px; background-color: rgba(180, 140, 0, 0.1);
+                font-size: 13px; 
+                color: #E6EE9C; 
+                padding: 12px; 
+                border: 2px solid #DCE775; 
+                border-radius: 8px; 
+                background-color: rgba(30, 40, 20, 0.4);
+                line-height: 1.5;
             """)
             strategy_label.setWordWrap(True)
             recommendations_layout.addWidget(strategy_label)

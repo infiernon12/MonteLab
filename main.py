@@ -148,8 +148,8 @@ def main():
     # Initialize Services
     logger.info("Initializing ML and Poker Engine Services...")
     script_dir = Path(__file__).parent
-    yolo_path = script_dir / "models" / "epoch_50_ckpt.pth"
-    resnet_path = script_dir / "models" / "fine_tuned_resnet_cards_240EPOCH.pt"
+    yolo_path = script_dir / "models" / "YOLOX_Detector.pth"
+    resnet_path = script_dir / "models" / "ResNet_Classifier.pt"
 
     # Compute Device Detection
     try:

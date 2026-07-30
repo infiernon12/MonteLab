@@ -1,124 +1,124 @@
-# MonteLab — Advanced Poker Analysis & Monte Carlo Engine
+# ♠️ MonteLab — Advanced AI Poker Analyzer & Monte Carlo Engine
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Python Version](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
-![GUI: PySide6](https://img.shields.io/badge/GUI-PySide6-green)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
+![C++: MSVC%2FMinGW](https://img.shields.io/badge/C%2B%2B-Engine-orange.svg)
+![PySide6: UI](https://img.shields.io/badge/GUI-PySide6%20%2F%20Fusion-purple.svg)
 
-**MonteLab** is an open-source poker equity calculation, game state analysis, and desktop visual assistant for Texas Hold'em. It combines computer vision (YOLO + ResNet card recognition) with a high-performance C++ Monte Carlo simulator to calculate pot odds, Stack-to-Pot Ratios (SPR), and real-time equity estimates.
-
----
-
-## ✨ Features
-
-- **🎯 Dual Interface Modes**:
-  - **Adaptive Mode**: Modern dockable UI (PySide6) with floatable panels and layout persistence.
-  - **Classic Mode**: Compact, traditional single-window layout for single-monitor setups.
-- **⚡ High-Performance Monte Carlo Engine**:
-  - Native C++ backend wrapper for fast equity calculations over millions of simulated hands.
-  - Automatic fallback to Python equity calculator if C++ binaries are not compiled.
-- **🤖 Computer Vision Card Detection**:
-  - Integrated ML pipeline utilizing **YOLO** (table detection) and **ResNet** (card classification).
-  - Region of Interest (ROI) screen capture overlay.
-- **📊 Real-time Poker Decision Core**:
-  - Pot Odds & Required Equity calculation.
-  - SPR (Stack-to-Pot Ratio) indicator.
-  - Distance-to-profit decision recommendation (FOLD / CALL / RAISE).
+**MonteLab** is an open-source poker hand analysis platform powered by Computer Vision (**YOLOX** + **ResNet-34**), a high-speed **C++ Monte Carlo simulation engine** (100,000+ iterations/run), and an **ABC Strategy & Tactical Advisor**.
 
 ---
 
-## 📁 Repository Structure
+## 🚀 Key Features
 
-```text
-MonteLab/
-├── main.py                      # Primary application entry point
-├── core/                        # Core poker logic and engine wrappers
-│   ├── domain/                  # Game state, card, and hand domain models
-│   └── poker/                   # Equity calculator & C++ Monte Carlo wrapper
-├── services/                    # ML and Analysis services
-├── ui/                          # PySide6 components, styles, and dockable windows
-├── ml/                          # Computer vision pipeline (YOLO & ResNet detectors)
-├── utils/                       # System utilities and helper functions
-├── MonteCarlo-Poker-master/     # Source code for native C++ Monte Carlo engine (CMake)
-├── models/                      # Location for ML model weights (.pt / .pth)
-├── requirements.txt             # Python package dependencies
-└── LICENSE                      # MIT License
-```
+* 👁️ **Computer Vision & Card Recognition**: 
+  * Real-time desktop screen region capture (ROI selection overlay).
+  * Table & card detection via **YOLOX** and rank/suit classification via **ResNet-34**.
+* ⚡ **High-Speed C++ Monte Carlo Engine**: 
+  * Simulates **100,000+ hands** in milliseconds using a persistent C++ daemon process.
+  * Auto-generates binary evaluation lookup tables (`lookup_tablev3.bin`).
+  * Automatic pure-Python fallback (`PythonMonteCarloBackend`) for cross-platform compatibility.
+* 📊 **Hand Equity & Odds Calculator**: 
+  * Calculates real-time **Win %**, **Tie %**, and **Lose %** probabilities.
+  * Out breakdown (Flush, Straight, Set/Trips, Overcards) and street improvement odds.
+* 💡 **ABC Strategy & Tactical Advisor**:
+  * Actionable preflop and postflop strategic advice based on position, stack depth (BB), and opponent count.
+  * GTO metrics: Pot Odds EV evaluation (`+EV PROFITABLE CALL` vs `-EV UNPROFITABLE CALL`), SPR (Stack-to-Pot Ratio), and recommended bet sizing in chips and Big Blinds.
+* 🎨 **Dual Responsive UI Modes**:
+  * **Adaptive Modern UI**: Fully dockable, floatable panels with persistent layout memory.
+  * **Classic UI**: Compact single-window interface.
 
 ---
 
-## 🚀 Quick Start
+## 📦 Model Weight Files
 
-### 1. Clone the Repository
+Download trained neural network weight files from the [GitHub Releases](https://github.com/infiernon12/MonteLab/releases) section and place them inside the `models/` directory:
 
+| File Name | Description | Recommended Path |
+| :--- | :--- | :--- |
+| **`YOLOX_Detector.pth`** | Table ROI & Card Detection Model | `models/YOLOX_Detector.pth` |
+| **`ResNet_Classifier.pt`** | Card Rank & Suit Classification Model | `models/ResNet_Classifier.pt` |
+
+---
+
+## ⚙️ Installation & Getting Started
+
+### 1. Requirements
+* Python **3.10+** (64-bit)
+* Windows 10/11 (or Linux/macOS using Python fallback)
+
+### 2. Setup Environment
 ```bash
+# Clone repository
 git clone https://github.com/infiernon12/MonteLab.git
 cd MonteLab
-```
 
-### 2. Set Up Virtual Environment
-
-```bash
-# Create virtual environment
+# Create and activate virtual environment
 python -m venv .venv
+.venv\Scripts\activate
 
-# Activate virtual environment
-# Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-# Linux / macOS:
-source .venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install --upgrade pip
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 4. Run MonteLab
-
+### 3. Running MonteLab
 ```bash
+# Run application (interactive UI selector)
 python main.py
-```
 
-You can also specify the interface mode via command-line arguments:
-```bash
-# Launch Adaptive Dockable UI directly
+# Launch Adaptive UI directly
 python main.py --ui adaptive
 
 # Launch Classic UI directly
 python main.py --ui classic
+
+# Or double-click launcher
+run.bat
 ```
 
 ---
 
-## 🔧 Building the C++ Monte Carlo Backend (Optional)
+## 🛠️ Project Architecture
 
-For maximum simulation speed, you can build the native C++ Monte Carlo engine located in `MonteCarlo-Poker-master/`:
-
-```bash
-cd MonteCarlo-Poker-master
-mkdir build
-cd build
-cmake ..
-cmake --build . --config Release
+```text
+MonteLab/
+├── main.py                          # Main entrypoint & UI selector
+├── run.bat                          # 1-click Windows launcher
+├── models/                          # Neural network weights directory
+├── core/
+│   ├── domain/                      # GameState, Cards, TableData, DecisionEngine
+│   └── poker/                       # EquityCalculator, HandEvaluator, Monte Carlo Backends
+├── services/
+│   ├── ml_service.py                # YOLOX + ResNet inference pipeline
+│   ├── analysis_service.py          # Hand analysis orchestration
+│   └── improved_abc_recommendations.py # ABC Tactical Advisor engine
+├── ui/
+│   ├── windows/                     # AdaptiveMainWindow & MainWindow
+│   └── dock_widgets.py              # Responsive dock panels
+└── utils/
+    └── screen_capture.py            # Screen capture & ROI selection
 ```
 
-Once built, `MonteLab` will automatically detect and utilize the compiled binary for calculations.
+---
+
+## ⚖️ Legal Disclaimer & Limitation of Liability
+
+> ### ⚠️ DISCLAIMER OF LIABILITY AND TERMS OF USE
+>
+> **1. EDUCATIONAL AND RESEARCH PURPOSE ONLY**  
+> MonteLab is developed and provided **EXCLUSIVELY FOR EDUCATIONAL, ACADEMIC, AND RESEARCH PURPOSES**, as well as offline hand analysis and study. It is intended to help users understand poker mathematics, probability theory, computer vision techniques, and strategic decision-making algorithms.
+>
+> **2. COMPLIANCE WITH THIRD-PARTY TERMS OF SERVICE**  
+> The user assumes **FULL AND SOLE RESPONSIBILITY** for complying with all applicable local laws, regulations, and third-party Terms of Service (including online gaming platforms and poker room rules). Using automated screen capture or analysis software during active real-money play on online poker platforms may violate their Terms of Service (anti-RTA policies). **The authors and contributors DO NOT condone, encourage, or support the use of this software during active online play where prohibited.**
+>
+> **3. NO WARRANTY (AS-IS)**  
+> THE SOFTWARE IS PROVIDED **"AS IS"**, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+>
+> **4. LIMITATION OF LIABILITY**  
+> IN NO EVENT SHALL THE AUTHORS, COPYRIGHT HOLDERS, OR CONTRIBUTORS BE LIABLE FOR ANY CLAIM, DAMAGES, LOSSES, BANS, FINANCIAL LOSSES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ---
 
-## 🧠 ML Model Weights
+## 📜 License
 
-MonteLab supports automated card detection from table screenshots. Place your trained model weight files into the `models/` directory:
-
-- `models/epoch_50_ckpt.pth` (Table/Card YOLO Detector)
-- `models/fine_tuned_resnet_cards_240EPOCH.pt` (ResNet Classifier)
-
-*Note: If model files are absent, MonteLab runs seamlessly in manual card entry mode.*
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE).

@@ -8,9 +8,18 @@
 #include "simulator.h"
 #include "tools.h"
 #include "samples.h" 
-#include "cards.h"
+#include "tables.h"
 
 using namespace std;
+
+Simulator::Simulator() {
+    if (table.empty()) {
+        cerr << "[Info] lookup_tablev3.bin not found. Generating lookup table (this takes a few seconds)..." << endl;
+        table = gen_lookup_table();
+        write_vect(table, "lookup_tablev3.bin");
+        cerr << "[Info] lookup_tablev3.bin generated and saved successfully!" << endl;
+    }
+}
 
 int Simulator::to_ckey(const vector<int> &hand)
 {

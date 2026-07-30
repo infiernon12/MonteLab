@@ -41,14 +41,26 @@ class AnalysisService:
             return self._analyze_postflop(game_state)
     
     def _analyze_preflop(self, game_state: GameState) -> Dict[str, any]:
-        """Preflop analysis (would integrate with GTO charts)"""
+        """Preflop analysis with Monte Carlo equity"""
         hand_key = self.hand_evaluator.get_hand_key(game_state.player_cards)
         
+        equity_data = {}
+        try:
+            equity_data = self.equity_calculator.calculate_equity(
+                game_state.player_cards,
+                [],
+                num_opponents=game_state.get_opponents_count(),
+                iterations=50000
+            )
+        except Exception as e:
+            logger.error(f"Preflop equity calculation failed: {e}")
+            equity_data = {"error": str(e)}
+
         return {
             "stage": "preflop",
             "hand_key": hand_key,
             "cards_display": " ".join(str(c) for c in game_state.player_cards),
-            # GTO recommendations would go here
+            "equity": equity_data,
         }
     
     def _analyze_postflop(self, game_state: GameState) -> Dict[str, any]:
@@ -76,17 +88,16 @@ class AnalysisService:
         
         # Equity simulation
         equity_data = {}
-        if len(game_state.board_cards) >= 3:
-            try:
-                equity_data = self.equity_calculator.calculate_equity(
-                    game_state.player_cards,
-                    game_state.board_cards,
-                    num_opponents=game_state.get_opponents_count(),
-                    iterations=50000
-                )
-            except Exception as e:
-                logger.error(f"Equity calculation failed: {e}")
-                equity_data = {"error": str(e)}
+        try:
+            equity_data = self.equity_calculator.calculate_equity(
+                game_state.player_cards,
+                game_state.board_cards,
+                num_opponents=game_state.get_opponents_count(),
+                iterations=50000
+            )
+        except Exception as e:
+            logger.error(f"Equity calculation failed: {e}")
+            equity_data = {"error": str(e)}
         
         # Strategic recommendation - NEW IMPROVED VERSION
         if self.use_improved_recommendations and self.recommendation_engine:
@@ -189,27 +200,27 @@ class AnalysisService:
         # Strong made hands
         if any(hand in current_hand.lower() for hand in strong_hands):
             if win_rate > 70:
-                return "💪 ОЧЕНЬ СИЛЬНАЯ РУКА - Ставьте крупно на вэлью!"
+                return "💪 MONSTER HAND — Heavy bet for value!"
             else:
-                return "✅ СИЛЬНАЯ РУКА - Ставьте на вэлью"
+                return "✅ STRONG HAND — Bet for value"
         
         # Medium hands
         if any(hand in current_hand.lower() for hand in medium_hands):
             if win_rate > 55:
-                return "👍 СРЕДНЯЯ РУКА - Ставьте средне или коллируйте"
+                return "👍 MEDIUM HAND — Medium bet or Call"
             else:
-                return "⚠️ ОСТОРОЖНО - Чек-колл или небольшая ставка"
+                return "⚠️ CAUTION — Check-Call or small bet"
         
         # Drawing hands
         if total_outs >= 12:
-            return "🚀 МОНСТР-ДРО - Играйте очень агрессивно!"
+            return "🚀 MONSTER DRAW — Play aggressively (+EV)!"
         elif total_outs >= 8:
-            return "⚡ ХОРОШЕЕ ДРО - Полу-блеф или колл"
+            return "⚡ GOOD DRAW — Semi-bluff bet or Call"
         elif total_outs >= 4:
-            return "🤞 СЛАБОЕ ДРО - Коллируйте дешево"
+            return "🤞 WEAK DRAW — Call cheap bets only"
         
         # Weak hands
         if board_cards_count == 5:
-            return "❌ СЛАБАЯ РУКА - Скорее всего ФОЛД к ставкам"
+            return "❌ WEAK HAND — Fold to bets"
         else:
-            return "😕 СЛАБАЯ ПОЗИЦИЯ - Чек или фолд к агрессии"
+            return "😕 WEAK POSITION — Check or Fold to aggression"

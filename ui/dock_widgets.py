@@ -142,14 +142,14 @@ class TableConfigDock(BaseDockWidget):
         size_layout.setSpacing(4)
         
         table_sizes = [
-            ("2 игрока", TableSize.HEADS_UP),
-            ("3 игрока", TableSize.THREE_MAX),
-            ("4 игрока", TableSize.FOUR_MAX),
-            ("5 игроков", TableSize.FIVE_MAX),
-            ("6 игроков", TableSize.SIX_MAX),
-            ("7 игроков", TableSize.SEVEN_MAX),
-            ("8 игроков", TableSize.EIGHT_MAX),
-            ("9 игроков", TableSize.NINE_MAX)
+            ("2 Players", TableSize.HEADS_UP),
+            ("3 Players", TableSize.THREE_MAX),
+            ("4 Players", TableSize.FOUR_MAX),
+            ("5 Players", TableSize.FIVE_MAX),
+            ("6 Players", TableSize.SIX_MAX),
+            ("7 Players", TableSize.SEVEN_MAX),
+            ("8 Players", TableSize.EIGHT_MAX),
+            ("9 Players", TableSize.NINE_MAX)
         ]
         
         for label, size in table_sizes:

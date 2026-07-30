@@ -18,6 +18,7 @@ private:
     void update_winners(int my_val, int &max_val, int ix, vector<int> &winners);
     void format_result(int N, vector<int> result);
 public:
+    Simulator();
     vector<int> c_table = gen_combo_table(52, 5);
     vector<int> table = read_vect("lookup_tablev3.bin");
     vector<int> replace = {0,1,1,2,2,3,3,4,4,5,0,0,4,6,3,5,2,4,1,3,1,1,2,3,3,4,4,5,2,2,4,6,3,5,3,3,4,5,4,4};

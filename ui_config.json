@@ -1,9 +1,9 @@
 {
   "window_geometry": {
-    "x": 686,
-    "y": 73,
-    "width": 1191,
-    "height": 893,
+    "x": 8,
+    "y": 38,
+    "width": 1255,
+    "height": 960,
     "maximized": false
   },
   "dock_states": {
@@ -37,10 +37,10 @@
     }
   },
   "roi": [
-    31,
-    106,
-    435,
-    734
+    1268,
+    285,
+    494,
+    511
   ],
   "theme": "dark",
   "font_scale": 1.0,
