@@ -1,0 +1,51 @@
+{
+  "hero_cards": [
+    "7c",
+    "9h"
+  ],
+  "community_cards": [
+    "9c",
+    "Qs",
+    "3h"
+  ],
+  "total_pot": 0.9,
+  "players": [
+    {
+      "id": 1,
+      "stack": 2.16,
+      "bet": 0.45,
+      "position": null,
+      "is_hero": true,
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "stack": 9.66,
+      "bet": 0.0,
+      "position": null,
+      "is_hero": false,
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "stack": 4.21,
+      "bet": 0.0,
+      "position": null,
+      "is_hero": false,
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "stack": 5.99,
+      "bet": 0.45,
+      "position": null,
+      "is_hero": false,
+      "is_active": true
+    }
+  ],
+  "big_blind": 0.0,
+  "small_blind": 0.0,
+  "hand_id": 1,
+  "is_preflop": false,
+  "positions_detected": true
+}
