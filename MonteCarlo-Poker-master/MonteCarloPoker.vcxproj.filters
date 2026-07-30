@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\samples.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\simulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\tools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\cards.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\cards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\MonteLab\Refactored\MonteCarlo-Poker-master\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1BA5D038-9D47-30C9-997A-1F34EAE9D14E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{52CF83CD-D8F5-34A2-9293-EDDCECBB0019}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

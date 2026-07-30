@@ -1,0 +1,48 @@
+{
+  "window_geometry": {
+    "x": 686,
+    "y": 73,
+    "width": 1191,
+    "height": 893,
+    "maximized": false
+  },
+  "dock_states": {
+    "table_config": {
+      "name": "table_config",
+      "floating": false,
+      "visible": true,
+      "area": "left",
+      "geometry": null
+    },
+    "cards": {
+      "name": "cards",
+      "floating": false,
+      "visible": true,
+      "area": "left",
+      "geometry": null
+    },
+    "analysis": {
+      "name": "analysis",
+      "floating": false,
+      "visible": true,
+      "area": "right",
+      "geometry": null
+    },
+    "image_preview": {
+      "name": "image_preview",
+      "floating": false,
+      "visible": true,
+      "area": "right",
+      "geometry": null
+    }
+  },
+  "roi": [
+    31,
+    106,
+    435,
+    734
+  ],
+  "theme": "dark",
+  "font_scale": 1.0,
+  "show_tooltips": true
+}

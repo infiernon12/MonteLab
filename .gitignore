@@ -1,0 +1,58 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+
+# C++ Build artifacts & CMake
+CMakeCache.txt
+CMakeFiles/
+Win32/
+x64/
+*.exe
+*.obj
+*.lib
+*.dll
+*.pdb
+*.ilk
+*.tlog
+*.recipe
+*.vcxproj.user
+MonteCarlo-Poker-master/CMakeFiles/
+MonteCarlo-Poker-master/x64/
+MonteCarlo-Poker-master/CMakeCache.txt
+MonteCarlo-Poker-master/cmake_install.cmake
+MonteCarlo-Poker-master/*.exe
+MonteCarlo-Poker-master/poker_test
+MonteCarlo-Poker-master/lookup_tablev3.bin
+
+# Environment & Virtualenvs
+.env
+.venv/
+venv/
+venv31011/
+ocr_service/paddle_venv/
+
+# Application Logs & Temporary Session Data
+*.log
+montelab.log
+session_data/*.json
+gui_config.json
+ui_config.json
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+nul
+
+# ML Models (Large weights)
+models/*.pth
+models/*.pt
+!models/.gitkeep
+
+# Backup & Deprecated files
+python_backup/
+bugs.txt
