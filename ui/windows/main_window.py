@@ -71,14 +71,14 @@ class MainWindow(QWidget):
     
     def setup_ui(self):
         """Setup user interface"""
-        self.setWindowTitle("💜 MonteLab - Refactored 💜")
+        self.setWindowTitle("MonteLab - Classic UI")
         self.setGeometry(100, 100, 1000, 700)
         self.setMinimumSize(800, 600)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
         main_layout = QVBoxLayout(self)
         
-        title = QLabel("MonteLab - Advanced Poker Analysis (Refactored)")
+        title = QLabel("MonteLab - Advanced Poker Analysis")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 20px; font-weight: bold; color: #4CAF50; padding: 15px;")
         main_layout.addWidget(title)
@@ -273,11 +273,16 @@ class MainWindow(QWidget):
 
 
 
-    def create_default_analysis(self):
+    def _clear_analysis_layout(self):
         while self.analysis_layout.count():
-            child = self.analysis_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+            item = self.analysis_layout.takeAt(0)
+            if item.widget():
+                w = item.widget()
+                w.setParent(None)
+                w.deleteLater()
+
+    def create_default_analysis(self):
+        self._clear_analysis_layout()
         
         welcome_label = QLabel("🃏 Welcome to MonteLab")
         welcome_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #4CAF50; padding: 15px;")
@@ -559,10 +564,7 @@ class MainWindow(QWidget):
             QMessageBox.critical(self, "Analysis Error", f"Failed to analyze: {e}")
     
     def _display_analysis_result(self, result: dict):
-        while self.analysis_layout.count():
-            child = self.analysis_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+        self._clear_analysis_layout()
         
         stage = result.get("stage", "")
         
@@ -595,7 +597,7 @@ class MainWindow(QWidget):
                 outs_text += f"• Straight: {outs_data.get('straight', 0)} outs\n"
                 outs_text += f"• Set/Trips: {outs_data.get('set_trips', 0)} outs\n"
                 outs_text += f"• Overcards: {outs_data.get('overcard', 0)} outs\n"
-                outs_text += f"━━━━━━━━━━━━━━━━━━━\n"
+                outs_text += f"-------------------\n"
                 outs_text += f"📊 TOTAL OUTS: {total_outs}\n\n"
                 
                 cards_to_come = 5 - len(self.game_state.board_cards)

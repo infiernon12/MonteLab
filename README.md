@@ -26,7 +26,13 @@
   * GTO metrics: Pot Odds EV evaluation (`+EV PROFITABLE CALL` vs `-EV UNPROFITABLE CALL`), SPR (Stack-to-Pot Ratio), and recommended bet sizing in chips and Big Blinds.
 * 🎨 **Dual Responsive UI Modes**:
   * **Adaptive Modern UI**: Fully dockable, floatable panels with persistent layout memory.
-  * **Classic UI**: Compact single-window interface.
+---
+
+## 🖼️ User Interface Screenshots
+
+| Adaptive Dockable UI | Classic Interface |
+| :---: | :---: |
+| <img src="https://raw.githubusercontent.com/infiernon12/MonteLab/main/docs/screenshots/adaptive_ui.png" alt="Adaptive UI" width="100%"/> | <img src="https://raw.githubusercontent.com/infiernon12/MonteLab/main/docs/screenshots/classic_ui.png" alt="Classic UI" width="100%"/> |
 
 ---
 

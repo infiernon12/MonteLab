@@ -772,8 +772,10 @@ class AdaptiveMainWindow(QMainWindow):
         """Clear all content from analysis area"""
         while self.analysis_layout.count():
             child = self.analysis_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+            if child and child.widget():
+                w = child.widget()
+                w.setParent(None)
+                w.deleteLater()
     
     def add_analysis_widget(self, widget: QWidget):
         """Add widget to analysis content"""
@@ -882,7 +884,7 @@ class AdaptiveMainWindow(QMainWindow):
                 outs_text += f"• Straight: {outs_data.get('straight', 0)} outs\n"
                 outs_text += f"• Set/Trips: {outs_data.get('set_trips', 0)} outs\n"
                 outs_text += f"• Overcards: {outs_data.get('overcard', 0)} outs\n"
-                outs_text += f"━━━━━━━━━━━━━━━━━━━\n"
+                outs_text += f"-------------------\n"
                 outs_text += f"📊 TOTAL OUTS: {total_outs}\n\n"
                 
                 # Calculate improvement equity
