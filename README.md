@@ -7,6 +7,11 @@
 
 **MonteLab** is an open-source poker hand analysis platform powered by Computer Vision (**YOLOX** + **ResNet-34**), a high-speed **C++ Monte Carlo simulation engine** (100,000+ iterations/run), and an **ABC Strategy & Tactical Advisor**.
 
+> ### 📜 Project Origin & Retrospective
+> **Note**: This repository represents a major milestone in my early software engineering journey. Built as a hands-on learning project to master C++ performance optimization, neural network integration (YOLOX & ResNet-34), PySide6 architecture, and Git workflows.
+> 
+> While it reflects an early pet-project scope (hence the absence of formal CI/CD pipelines and automated unit test suites), it highlights my foundational exploration into complex multi-language systems, computer vision, and real-time interactive software.
+
 ---
 
 ## 🚀 Key Features
